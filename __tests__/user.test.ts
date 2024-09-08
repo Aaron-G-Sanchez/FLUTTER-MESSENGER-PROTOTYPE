@@ -10,13 +10,15 @@ beforeAll(async () => {
 describe('User', () => {
   test('should be able to create a user', async () => {
     const userObj: UserAttributes = {
-      username: 'Chravis',
-      avatar: 'empty'
+      username: 'Chravis'
     }
 
+    // How do we define the type of this? Is this important?
+    // Is this good enough?
     const newUser = await User.create(userObj)
 
     expect(newUser).toBeInstanceOf(User)
     expect(newUser).toHaveProperty('username', userObj.username)
+    expect(newUser).toHaveProperty('avatar', null)
   })
 })

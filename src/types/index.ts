@@ -1,5 +1,5 @@
 export interface UserAttributes {
   username: string
-  avatar: string
+  avatar?: string
   // friends: UserAttributes[]
 }
