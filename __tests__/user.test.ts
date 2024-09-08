@@ -9,14 +9,14 @@ beforeAll(async () => {
 
 describe('User', () => {
   test('should be able to create a user', async () => {
-    const userObj = {
+    const userObj: UserAttributes = {
       username: 'Chravis',
-      avatar: 'empty',
-      friends: []
+      avatar: 'empty'
     }
 
     const newUser = await User.create(userObj)
 
     expect(newUser).toBeInstanceOf(User)
+    expect(newUser).toHaveProperty('username', userObj.username)
   })
 })

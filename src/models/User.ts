@@ -1,15 +1,23 @@
-import { DataTypes, ModelDefined } from 'sequelize'
+import { DataTypes, Model, ModelDefined } from 'sequelize'
 import { UserAttributes } from '../types'
 import { db } from '../db/connection'
 
-const User = db.define('User', {
-  id: {
-    type: DataTypes.INTEGER,
-    autoIncrement: true,
-    primaryKey: true
+export const User: ModelDefined<UserAttributes, UserAttributes> = db.define(
+  'User',
+  {
+    id: {
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      primaryKey: true
+    },
+    username: DataTypes.STRING,
+    avatar: {
+      type: DataTypes.STRING,
+      defaultValue: 'empty'
+    }
   },
-  username: DataTypes.STRING,
-  avatar: DataTypes.STRING
-})
-
-export { User }
+  {
+    tableName: 'users',
+    timestamps: true
+  }
+)
