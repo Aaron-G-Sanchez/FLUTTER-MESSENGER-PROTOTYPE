@@ -11,7 +11,8 @@
     "typescript": "^5.6.2"
   },
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "test:watch": "jest --watchAll"
   },
   "dependencies": {
     "mongoose": "^8.6.1"

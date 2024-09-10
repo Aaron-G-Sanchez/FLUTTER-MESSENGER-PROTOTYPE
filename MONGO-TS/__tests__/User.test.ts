@@ -12,13 +12,51 @@ afterAll(async () => {
 })
 
 describe('User model', () => {
-  test('should create a new user', async () => {
-    const testUserData: IUser = {
-      username: 'test user',
-      avatar: ''
-    }
+  const testUserOne: IUser = {
+    username: 'testUserOne'
+  }
 
-    const newUser: HydratedDocument<IUser> = await User.create(testUserData)
-    expect(newUser).toMatchObject(testUserData)
+  const testUserTwo: IUser = {
+    username: 'testUserTwo'
+  }
+
+  test('should create a new user', async () => {
+    const [userOne, userTwo]: HydratedDocument<IUser>[] = await User.create([
+      testUserOne,
+      testUserTwo
+    ])
+    expect(userOne).toBeInstanceOf(User)
+    expect(userOne).toMatchObject(testUserOne)
+    expect(userTwo).toBeInstanceOf(User)
+    expect(userTwo).toMatchObject(testUserTwo)
+  })
+
+  test('should allow User to add friends', async () => {
+    const userOne: HydratedDocument<IUser> | null = await User.findOne({
+      username: testUserOne.username
+    })
+
+    const userTwo: HydratedDocument<IUser> | null = await User.findOne({
+      username: testUserTwo.username
+    })
+
+    userOne!.friends!.push(userTwo!._id)
+    userTwo!.friends!.push(userOne!._id)
+    await userOne!.save()
+    await userTwo!.save()
+
+    expect(userOne!.friends).toContain(userTwo!._id)
+    expect(userTwo!.friends).toContain(userOne!._id)
+  })
+
+  test('friends should persist in the database', async () => {
+    const userOneWithFriend: HydratedDocument<IUser> | null =
+      await User.findOne({
+        username: testUserOne.username
+      }).populate('friends')
+
+    expect(userOneWithFriend!.friends).toEqual(
+      expect.arrayContaining([expect.objectContaining(testUserTwo)])
+    )
   })
 })
