@@ -7,6 +7,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Directionality(
-        textDirection: TextDirection.ltr, child: Text('Hello World'));
+        textDirection: TextDirection.ltr,
+        child: Center(child: Text('Hello World')));
   }
 }
